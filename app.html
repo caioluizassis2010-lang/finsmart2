@@ -40,7 +40,7 @@
   --purple:#9b8fff;
   --purple-dim:#9b8fff18;
   --gold:#ffd166;
-  --sidebar:72px;
+  --sidebar:200px;
   --radius:10px;
   --radius-lg:14px;
 }
@@ -82,20 +82,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .shell{display:grid;grid-template-columns:var(--sidebar) 1fr;flex:1;overflow:hidden}
 
 /* ══ SIDEBAR ══ */
-.sidebar{background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;overflow-y:auto}
-.sb-logo{width:40px;height:40px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
+.sidebar{background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:stretch;padding:16px 0 16px 0;gap:2px;overflow-y:auto}
+.sb-logo{width:40px;height:40px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 4px;flex-shrink:0}
 .sb-logo svg{width:22px;height:22px;fill:var(--bg)}
-.sb-sep{width:32px;height:1px;background:var(--border);margin:6px 0}
-.sb-btn{width:48px;height:48px;border-radius:10px;border:none;background:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;position:relative;flex-shrink:0}
+.sb-sep{width:calc(100% - 24px);height:1px;background:var(--border);margin:4px 12px}
+.sb-btn{width:100%;padding:8px 14px;border-radius:0;border:none;background:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s;position:relative;flex-shrink:0;font-family:inherit;font-size:12px;text-align:left}
 .sb-btn:hover{background:var(--card2);color:var(--text)}
 .sb-btn.active{background:var(--green-dim);color:var(--green)}
-.sb-btn svg{width:18px;height:18px}
-.sb-btn .sb-tip{position:absolute;left:58px;background:var(--card2);border:1px solid var(--border2);color:var(--text);font-size:11px;font-weight:500;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:50}
-.sb-btn:hover .sb-tip{opacity:1}
-.sb-badge{position:absolute;top:8px;right:8px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1px solid var(--card)}
-.sb-user{margin-top:auto;width:40px;height:40px;border-radius:50%;background:var(--green-dim);border:1.5px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--green);cursor:pointer;overflow:hidden;flex-shrink:0}
-.sb-user img{width:40px;height:40px;object-fit:cover}
-.sb-admin-dot{position:absolute;bottom:14px;right:14px;width:8px;height:8px;background:var(--gold);border-radius:50%;border:1.5px solid var(--card)}
+.sb-btn svg{width:16px;height:16px;flex-shrink:0}
+.sb-btn .sb-label{font-size:12px;white-space:nowrap}
+.sb-btn .sb-tip{display:none}
+.sb-section{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600;padding:10px 14px 4px;margin-top:2px}
+.sb-badge{position:absolute;top:10px;right:10px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1px solid var(--card)}
+.sb-user{width:34px;height:34px;border-radius:50%;background:var(--green-dim);border:1.5px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--green);cursor:pointer;overflow:hidden;flex-shrink:0}
+.sb-user img{width:34px;height:34px;object-fit:cover}
+.sb-admin-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.sb-footer{margin-top:auto;padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.sb-user-info{flex:1;min-width:0}
+.sb-user-name{font-size:11px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-plan{font-size:10px;color:var(--text2)}
 
 /* ══ TOPBAR ══ */
 .topbar{height:56px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
@@ -296,7 +301,7 @@ tr:hover td{background:var(--bg2)}
 
 /* ══ MOBILE ══ */
 @media(max-width:768px){
-  :root{--sidebar:56px}
+  :root{--sidebar:64px}
   .sb-tip{display:none}
   .metrics{grid-template-columns:1fr 1fr}
   .grid-2{grid-template-columns:1fr}
@@ -380,72 +385,85 @@ tr:hover td{background:var(--bg2)}
   <div class="shell">
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sb-logo">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L20 8.5v7L12 19.82 4 15.5v-7L12 4.18z"/></svg>
+      <div style="padding:0 14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="sb-logo" style="margin:0;flex-shrink:0;width:32px;height:32px;border-radius:8px">
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L20 8.5v7L12 19.82 4 15.5v-7L12 4.18z"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);letter-spacing:-.2px">FinSmart</div>
+            <div style="font-size:10px;color:var(--green);font-weight:500">Pro</div>
+          </div>
+        </div>
       </div>
 
+      <div class="sb-section">Principal</div>
       <button class="sb-btn active" onclick="showPage('dashboard')" id="sb-dashboard">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>
-        <span class="sb-tip">Dashboard</span>
+        <span class="sb-label">Dashboard</span>
       </button>
 
       <button class="sb-btn" onclick="showPage('lancamentos')" id="sb-lancamentos">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        <span class="sb-tip">Lançamentos</span>
+        <span class="sb-label">Lançamentos</span>
       </button>
 
       <button class="sb-btn" onclick="showPage('contas')" id="sb-contas">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span class="sb-tip">Contas e bancos</span>
+        <span class="sb-label">Contas</span>
       </button>
 
       <button class="sb-btn" onclick="showPage('recorrentes')" id="sb-recorrentes">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        <span class="sb-tip">Recorrentes</span>
+        <span class="sb-label">Recorrentes</span>
       </button>
 
       <div class="sb-sep"></div>
-
+      <div class="sb-section">Análise</div>
       <button class="sb-btn" onclick="gatedPage('patrimonio')" id="sb-patrimonio">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        <span class="sb-tip">Patrimônio</span>
+        <span class="sb-label">Patrimônio</span>
       </button>
 
       <button class="sb-btn" onclick="gatedPage('metas')" id="sb-metas">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        <span class="sb-tip">Metas</span>
+        <span class="sb-label">Metas</span>
       </button>
 
       <button class="sb-btn" onclick="gatedPage('alertas')" id="sb-alertas">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="sb-tip">Alertas</span>
+        <span class="sb-label">Alertas</span>
         <div class="sb-badge" id="alert-badge" style="display:none"></div>
       </button>
 
       <div class="sb-sep"></div>
-
+      <div class="sb-section">Configurar</div>
       <button class="sb-btn" onclick="showPage('categorias')" id="sb-categorias">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
-        <span class="sb-tip">Categorias</span>
+        <span class="sb-label">Categorias</span>
       </button>
 
       <button class="sb-btn" onclick="showPage('importar')" id="sb-importar">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <span class="sb-tip">Importar extrato</span>
+        <span class="sb-label">Importar</span>
       </button>
 
       <button class="sb-btn" onclick="showPage('planos')" id="sb-planos">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <span class="sb-tip">Planos</span>
+        <span class="sb-label">Planos</span>
       </button>
 
       <button class="sb-btn" id="sb-admin" onclick="showPage('admin')" style="display:none">
         <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span class="sb-tip">Admin</span>
+        <span class="sb-label">Admin</span>
       </button>
 
-      <div style="margin-top:auto;position:relative">
-        <div class="sb-user" id="sb-user" onclick="logout()" title="Sair">?</div>
+      <div class="sb-footer">
+        <div class="sb-user" id="sb-user" onclick="logout()" title="Sair da conta">?</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name" id="sb-user-name">—</div>
+          <div class="sb-user-plan" id="sb-user-plan">free</div>
+        </div>
         <div class="sb-admin-dot" id="sb-admin-dot" style="display:none"></div>
       </div>
     </aside>
@@ -1039,7 +1057,17 @@ function registerEmail() {
 }
 
 function loginAdmin() {
-  const user={id:'admin',name:'Administrador',email:'admin@finsmart.app',type:'admin',plan:'pro',role:'admin',trialStart:null};
+  const email = document.getElementById('l-email').value.trim();
+  const ADMIN_EMAIL = 'caioluizassis2010@gmail.com';
+  if(!email) {
+    const input = prompt('Digite o e-mail de administrador:');
+    if(!input) return;
+    if(input.trim().toLowerCase() !== ADMIN_EMAIL) { alert('Acesso negado. E-mail não autorizado como administrador.'); return; }
+  } else if(email.toLowerCase() !== ADMIN_EMAIL) {
+    alert('Acesso negado. E-mail não autorizado como administrador.');
+    return;
+  }
+  const user={id:'admin',name:'Caio Luiz',email:ADMIN_EMAIL,type:'admin',plan:'pro',role:'admin',trialStart:null};
   doLogin(user);
 }
 
@@ -1050,9 +1078,13 @@ function loginAsGuest() {
 function doLogin(user) {
   currentUser=user; save('currentUser',user);
   document.getElementById('auth-wrap').classList.remove('show');
-  document.getElementById('app').style.display='flex';
-  document.getElementById('app').style.flexDirection='column';
-  setupUI(); renderDashboard();
+  if(shouldShowOnboarding(user)){
+    startOnboarding();
+  } else {
+    document.getElementById('app').style.display='flex';
+    document.getElementById('app').style.flexDirection='column';
+    setupUI(); renderDashboard();
+  }
 }
 
 function logout() {
@@ -1070,6 +1102,11 @@ function setupUI() {
   const av=document.getElementById('sb-user');
   if(currentUser.picture) av.innerHTML=`<img src="${currentUser.picture}" alt="">`;
   else av.textContent=currentUser.name.charAt(0).toUpperCase();
+  const nm=document.getElementById('sb-user-name');
+  const pl=document.getElementById('sb-user-plan');
+  if(nm) nm.textContent=currentUser.name.split(' ')[0];
+  const planLabel=currentUser.role==='admin'?'Admin':getUserPlan()==='trial'?'Trial Pro':getUserPlan()==='pro'?'Pro':'Free';
+  if(pl) pl.textContent=planLabel;
 
   // Admin elements
   document.getElementById('sb-admin').style.display=isAdmin?'flex':'none';
@@ -1554,6 +1591,324 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(saved){currentUser=saved;doLogin(saved);}
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
+
+// ══ ONBOARDING ══
+const ADMIN_EMAIL = 'caioluizassis2010@gmail.com';
+let obData = {goal:'',renda:'',cats:[],banks:[],freq:''};
+
+function shouldShowOnboarding(user) {
+  if(user.role === 'admin') return false;
+  return !user.onboardingDone;
+}
+
+function startOnboarding() {
+  document.getElementById('onboarding').style.display = 'block';
+  document.getElementById('app').style.display = 'none';
+  obData = {goal:'',renda:'',cats:[],banks:[],freq:''};
+}
+
+function obSelect(field, val, el) {
+  // deselect others in group
+  el.closest('div').querySelectorAll('.ob-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  obData[field] = val;
+  // enable button
+  const btns = {goal:'ob-btn1',renda:'ob-btn2',freq:'ob-btn5'};
+  if(btns[field]) {
+    const btn = document.getElementById(btns[field]);
+    if(btn){btn.disabled=false;btn.style.opacity='1';}
+  }
+}
+
+function obToggle(el) {
+  el.classList.toggle('selected');
+}
+
+function obNext(step) {
+  for(let i=1;i<=5;i++) {
+    const s = document.getElementById('ob-step'+i);
+    if(s) s.style.display = i===step?'block':'none';
+  }
+  for(let i=1;i<=5;i++) {
+    const p = document.getElementById('ob-p'+i);
+    if(p) p.style.background = i<=step ? '#00d4a0' : '#ffffff12';
+  }
+}
+
+function finishOnboarding() {
+  // Collect multi-selects
+  obData.cats = [...document.querySelectorAll('#onboarding .ob-multi[data-cat].selected')].map(el=>el.dataset.cat);
+  obData.banks = [...document.querySelectorAll('#onboarding .ob-multi[data-bank].selected')].map(el=>el.dataset.bank);
+
+  // Apply profile to app
+  applyOnboardingProfile(obData);
+
+  // Mark done
+  currentUser.onboardingDone = true;
+  save('currentUser', currentUser);
+  const users = load('users', {});
+  if(users[currentUser.id]) { users[currentUser.id].onboardingDone = true; save('users', users); }
+
+  // Show app
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  setupUI();
+  renderDashboard();
+}
+
+function applyOnboardingProfile(data) {
+  // Clear defaults and start fresh
+  txs = [];
+  metas = [];
+  alertas = [];
+  recs = [];
+
+  // Set banks based on selection
+  bancos = [];
+  const bankMap = {
+    nubank:{name:'Nubank',color:'#820AD1',short:'Nu'},
+    itau:{name:'Itaú',color:'#003D73',short:'Itá'},
+    bradesco:{name:'Bradesco',color:'#CC0000',short:'Brad'},
+    inter:{name:'Inter',color:'#FF6B00',short:'Inter'},
+    c6:{name:'C6 Bank',color:'#1F1F1F',short:'C6'},
+    caixa:{name:'Caixa',color:'#0066B3',short:'CEF'},
+    bb:{name:'Banco do Brasil',color:'#FFDD00',short:'BB'},
+    picpay:{name:'PicPay',color:'#21C25E',short:'Pic'},
+    outro:{name:'Outro banco',color:'#5a5a72',short:'?'},
+  };
+  if(data.banks.length === 0) data.banks = ['outro'];
+  data.banks.forEach((b,i) => {
+    const bd = bankMap[b] || bankMap['outro'];
+    bancos.push({id:'b'+(i+1), bank:b, nome:'Conta principal', tipo:'Conta corrente', saldo:0});
+  });
+
+  // Build categories based on selection
+  const catTemplates = {
+    alimentacao:{id:'c1',nome:'Alimentação',icon:'🛒',cor:'g',limite:800},
+    transporte:{id:'c2',nome:'Transporte',icon:'🚗',cor:'b',limite:300},
+    moradia:{id:'c3',nome:'Moradia',icon:'🏠',cor:'a',limite:1500},
+    saude:{id:'c4',nome:'Saúde',icon:'💊',cor:'r',limite:400},
+    lazer:{id:'c5',nome:'Lazer',icon:'🎬',cor:'p',limite:300},
+    educacao:{id:'c6',nome:'Educação',icon:'📚',cor:'b',limite:500},
+    assinaturas:{id:'c7',nome:'Assinaturas',icon:'📡',cor:'p',limite:150},
+    pets:{id:'c8',nome:'Pets',icon:'🐾',cor:'a',limite:300},
+    viagem:{id:'c9',nome:'Viagem',icon:'✈️',cor:'b',limite:500},
+    investimentos:{id:'c10',nome:'Investimentos',icon:'📊',cor:'g',limite:0},
+  };
+  const salCat = {id:'cS',nome:'Salário / Receita',icon:'💳',cor:'g',limite:0};
+  const outrosCat = {id:'cO',nome:'Outros',icon:'📁',cor:'a',limite:200};
+  
+  let selectedCats = data.cats.length > 0 
+    ? data.cats.map((c,i) => ({...catTemplates[c], id:'c'+(i+1)})).filter(Boolean)
+    : Object.values(catTemplates).slice(0,6);
+  
+  // Adjust limits by renda
+  const rendaMultiplier = {ate3k:0.5,'3a8k':1,'8a20k':2,acima20k:4,variavel:1}[data.renda] || 1;
+  selectedCats = selectedCats.map(c => ({...c, limite: Math.round(c.limite * rendaMultiplier / 50) * 50}));
+  
+  cats = [...selectedCats, salCat, outrosCat];
+
+  // Create initial goal based on objective
+  const goalMap = {
+    emergencia:{nome:'Reserva de emergência',icon:'🛡️',alvo:15000,prazo:'2026-12-31'},
+    dividas:{nome:'Quitar dívidas',icon:'💳',alvo:5000,prazo:'2026-06-30'},
+    investir:{nome:'Primeiro investimento',icon:'📈',alvo:3000,prazo:'2026-03-31'},
+    imovel:{nome:'Entrada do imóvel',icon:'🏠',alvo:50000,prazo:'2027-12-31'},
+    controle:{nome:'Fundo de lazer',icon:'🎯',alvo:2000,prazo:'2026-06-30'},
+  };
+  const goal = goalMap[data.goal] || goalMap['controle'];
+  metas = [{id:'m1', ...goal, atual:0}];
+
+  // Create initial alerts for key categories
+  const alertCats = cats.filter(c=>c.limite>0).slice(0,3);
+  alertas = alertCats.map((c,i) => ({id:'a'+(i+1), cat:c.id, limite:c.limite, pct:80}));
+
+  // Save everything
+  save('tx', txs);
+  save('cats', cats);
+  save('bancos', bancos);
+  save('recs', recs);
+  save('metas', metas);
+  save('alertas', alertas);
+}
+
+// doLogin is already defined above — patch it here
+// We store the original and replace
+window.__origDoLogin = window.doLogin || function(){};
+
 </script>
+
+<!-- ONBOARDING OVERLAY -->
+<div id="onboarding" style="display:none;position:fixed;inset:0;background:#080810;z-index:500;overflow-y:auto;font-family:'Inter',system-ui,sans-serif">
+  <div style="max-width:560px;margin:0 auto;padding:40px 24px;min-height:100vh;display:flex;flex-direction:column;justify-content:center">
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:48px">
+      <div style="width:32px;height:32px;border-radius:8px;background:#00d4a0;display:flex;align-items:center;justify-content:center">
+        <svg width="17" height="17" fill="#000" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg>
+      </div>
+      <span style="font-size:16px;font-weight:600;color:#f0f0f8">FinSmart <span style="color:#00d4a0">Pro</span></span>
+    </div>
+
+    <!-- Progress -->
+    <div style="display:flex;gap:6px;margin-bottom:40px" id="ob-progress">
+      <div style="flex:1;height:3px;border-radius:2px;background:#00d4a0" id="ob-p1"></div>
+      <div style="flex:1;height:3px;border-radius:2px;background:#ffffff12" id="ob-p2"></div>
+      <div style="flex:1;height:3px;border-radius:2px;background:#ffffff12" id="ob-p3"></div>
+      <div style="flex:1;height:3px;border-radius:2px;background:#ffffff12" id="ob-p4"></div>
+      <div style="flex:1;height:3px;border-radius:2px;background:#ffffff12" id="ob-p5"></div>
+    </div>
+
+    <!-- Steps -->
+    <div id="ob-step1">
+      <div style="font-size:11px;color:#00d4a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px">Passo 1 de 5</div>
+      <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.8px;color:#f0f0f8;margin-bottom:10px;line-height:1.15">Qual é o seu<br>principal objetivo financeiro?</h2>
+      <p style="font-size:14px;color:#7070a0;margin-bottom:28px;font-weight:300">Isso vai definir como vamos organizar seu sistema de controle.</p>
+      <div style="display:flex;flex-direction:column;gap:10px" id="ob-goals">
+        <div class="ob-card" onclick="obSelect('goal','emergencia',this)" data-val="emergencia">
+          <div style="font-size:15px;margin-bottom:3px;font-weight:500">🛡️ Reserva de emergência</div>
+          <div style="font-size:12px;color:#7070a0">Construir uma reserva de 3 a 12 meses de gastos</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('goal','dividas',this)" data-val="dividas">
+          <div style="font-size:15px;margin-bottom:3px;font-weight:500">💳 Quitar dívidas</div>
+          <div style="font-size:12px;color:#7070a0">Eliminar dívidas e recuperar o controle financeiro</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('goal','investir',this)" data-val="investir">
+          <div style="font-size:15px;margin-bottom:3px;font-weight:500">📈 Começar a investir</div>
+          <div style="font-size:12px;color:#7070a0">Fazer o dinheiro trabalhar e construir patrimônio</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('goal','imovel',this)" data-val="imovel">
+          <div style="font-size:15px;margin-bottom:3px;font-weight:500">🏠 Comprar imóvel / carro</div>
+          <div style="font-size:12px;color:#7070a0">Juntar para uma aquisição importante</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('goal','controle',this)" data-val="controle">
+          <div style="font-size:15px;margin-bottom:3px;font-weight:500">🎯 Só quero controlar meus gastos</div>
+          <div style="font-size:12px;color:#7070a0">Entender para onde meu dinheiro vai todo mês</div>
+        </div>
+      </div>
+      <button onclick="obNext(2)" id="ob-btn1" style="width:100%;margin-top:20px;padding:13px;border-radius:9px;border:none;background:#00d4a0;color:#000;font-size:14px;font-weight:600;cursor:pointer;opacity:.4;font-family:inherit;transition:opacity .15s" disabled>Continuar →</button>
+    </div>
+
+    <div id="ob-step2" style="display:none">
+      <div style="font-size:11px;color:#00d4a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px">Passo 2 de 5</div>
+      <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.8px;color:#f0f0f8;margin-bottom:10px;line-height:1.15">Qual é sua renda<br>mensal aproximada?</h2>
+      <p style="font-size:14px;color:#7070a0;margin-bottom:28px;font-weight:300">Usamos isso para sugerir limites e metas realistas para você.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="ob-card" onclick="obSelect('renda','ate3k',this)" data-val="ate3k">
+          <div style="font-size:15px;font-weight:500">Até R$ 3.000</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('renda','3a8k',this)" data-val="3a8k">
+          <div style="font-size:15px;font-weight:500">R$ 3.000 – R$ 8.000</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('renda','8a20k',this)" data-val="8a20k">
+          <div style="font-size:15px;font-weight:500">R$ 8.000 – R$ 20.000</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('renda','acima20k',this)" data-val="acima20k">
+          <div style="font-size:15px;font-weight:500">Acima de R$ 20.000</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('renda','variavel',this)" data-val="variavel">
+          <div style="font-size:15px;font-weight:500">Renda variável / freelancer</div>
+        </div>
+      </div>
+      <button onclick="obNext(3)" id="ob-btn2" style="width:100%;margin-top:20px;padding:13px;border-radius:9px;border:none;background:#00d4a0;color:#000;font-size:14px;font-weight:600;cursor:pointer;opacity:.4;font-family:inherit" disabled>Continuar →</button>
+    </div>
+
+    <div id="ob-step3" style="display:none">
+      <div style="font-size:11px;color:#00d4a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px">Passo 3 de 5</div>
+      <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.8px;color:#f0f0f8;margin-bottom:10px;line-height:1.15">Quais categorias<br>fazem parte da sua rotina?</h2>
+      <p style="font-size:14px;color:#7070a0;margin-bottom:28px;font-weight:300">Selecione todas que se aplicam. Você pode personalizar depois.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="alimentacao">🛒 Alimentação</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="transporte">🚗 Transporte</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="moradia">🏠 Moradia</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="saude">💊 Saúde</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="lazer">🎬 Lazer</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="educacao">📚 Educação</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="assinaturas">📡 Assinaturas</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="pets">🐾 Pets</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="viagem">✈️ Viagem</div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-cat="investimentos">📊 Investimentos</div>
+      </div>
+      <button onclick="obNext(4)" style="width:100%;margin-top:20px;padding:13px;border-radius:9px;border:none;background:#00d4a0;color:#000;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Continuar →</button>
+    </div>
+
+    <div id="ob-step4" style="display:none">
+      <div style="font-size:11px;color:#00d4a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px">Passo 4 de 5</div>
+      <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.8px;color:#f0f0f8;margin-bottom:10px;line-height:1.15">Você tem contas em<br>algum desses bancos?</h2>
+      <p style="font-size:14px;color:#7070a0;margin-bottom:28px;font-weight:300">Selecione os bancos que quer adicionar. Você pode adicionar mais depois.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="nubank" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#820AD1;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">Nu</div>
+          <div style="font-size:11px">Nubank</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="itau" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#003D73;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">Itá</div>
+          <div style="font-size:11px">Itaú</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="bradesco" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#CC0000;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">Brad</div>
+          <div style="font-size:11px">Bradesco</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="inter" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#FF6B00;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">Inter</div>
+          <div style="font-size:11px">Inter</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="c6" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#1F1F1F;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">C6</div>
+          <div style="font-size:11px">C6 Bank</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="caixa" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#0066B3;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">CEF</div>
+          <div style="font-size:11px">Caixa</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="bb" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#FFDD00;color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">BB</div>
+          <div style="font-size:11px">Banco do Brasil</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="picpay" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#21C25E;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">Pic</div>
+          <div style="font-size:11px">PicPay</div>
+        </div>
+        <div class="ob-card ob-multi" onclick="obToggle(this)" data-bank="outro" style="text-align:center;padding:12px 8px">
+          <div style="width:36px;height:36px;border-radius:9px;background:#3a3a4a;color:#aaa;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px">+</div>
+          <div style="font-size:11px">Outro</div>
+        </div>
+      </div>
+      <button onclick="obNext(5)" style="width:100%;margin-top:20px;padding:13px;border-radius:9px;border:none;background:#00d4a0;color:#000;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Continuar →</button>
+    </div>
+
+    <div id="ob-step5" style="display:none">
+      <div style="font-size:11px;color:#00d4a0;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px">Passo 5 de 5</div>
+      <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.8px;color:#f0f0f8;margin-bottom:10px;line-height:1.15">Com que frequência<br>você vai registrar seus gastos?</h2>
+      <p style="font-size:14px;color:#7070a0;margin-bottom:28px;font-weight:300">Sem julgamentos — isso nos ajuda a configurar a melhor experiência para você.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="ob-card" onclick="obSelect('freq','diario',this)">
+          <div style="font-size:15px;font-weight:500;margin-bottom:3px">📅 Todo dia</div>
+          <div style="font-size:12px;color:#7070a0">Registro em tempo real, sempre atualizado</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('freq','semanal',this)">
+          <div style="font-size:15px;font-weight:500;margin-bottom:3px">📆 Uma vez por semana</div>
+          <div style="font-size:12px;color:#7070a0">Reviso e registro em bloco no final de semana</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('freq','mensal',this)">
+          <div style="font-size:15px;font-weight:500;margin-bottom:3px">🗓️ Uma vez por mês</div>
+          <div style="font-size:12px;color:#7070a0">Prefiro importar o extrato e categorizar de uma vez</div>
+        </div>
+        <div class="ob-card" onclick="obSelect('freq','irregular',this)">
+          <div style="font-size:15px;font-weight:500;margin-bottom:3px">⚡ Quando me lembrar</div>
+          <div style="font-size:12px;color:#7070a0">Quero algo fácil e rápido para qualquer momento</div>
+        </div>
+      </div>
+      <button onclick="finishOnboarding()" id="ob-btn5" style="width:100%;margin-top:20px;padding:13px;border-radius:9px;border:none;background:#00d4a0;color:#000;font-size:14px;font-weight:600;cursor:pointer;opacity:.4;font-family:inherit" disabled>Concluir diagnóstico →</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.ob-card{background:#0f0f1e;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .15s;color:#f0f0f8}
+.ob-card:hover{border-color:rgba(0,212,160,.4);background:#0f1a18}
+.ob-card.selected{border-color:rgba(0,212,160,.6);background:#00d4a012}
+.ob-card.ob-multi.selected{border-color:rgba(0,212,160,.6);background:#00d4a012;color:#00d4a0}
+</style>
+
 </body>
 </html>
