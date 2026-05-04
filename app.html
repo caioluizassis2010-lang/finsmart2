@@ -344,31 +344,52 @@ tr:hover td{background:var(--bg2)}
 .plan-feats li::before{content:'';width:13px;height:13px;border-radius:50%;background:var(--border);flex-shrink:0;background-image:none}
 .plan-feats li.on::before{background:var(--green-dim);border:1px solid var(--green-b);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d4a0' d='M2 6l3 3 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
 
-.hamburger{display:none;width:36px;height:36px;padding:0;border:1px solid var(--border2);background:var(--card2);color:var(--text2);cursor:pointer;border-radius:var(--radius);transition:all .2s;align-items:center;justify-content:center;flex-shrink:0}
-.hamburger:hover{background:var(--bg2);color:var(--text)}
+/* ── MOBILE ── */
 .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:39}
 .sb-overlay.show{display:block}
+.hamburger{display:none;width:34px;height:34px;padding:0;border:1px solid var(--border2);background:var(--card2);color:var(--text2);cursor:pointer;border-radius:8px;transition:all .2s;align-items:center;justify-content:center;flex-shrink:0}
+.hamburger:hover{background:var(--bg2);color:var(--text)}
 .bottom-nav{display:none}
 .fab{display:none}
 @media(max-width:768px){
   :root{--sidebar:0px}
   .hamburger{display:flex}
-  .sidebar{position:fixed!important;left:0;top:0;bottom:0;z-index:40;width:264px!important;transform:translateX(-110%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex!important;flex-direction:column!important}
+  .sidebar{
+    position:fixed!important;left:0;top:0;bottom:0;
+    z-index:40;width:260px!important;
+    transform:translateX(-110%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    display:flex!important;flex-direction:column!important;
+  }
   .sidebar.open{transform:translateX(0)!important}
   .shell{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr 1fr}
   .grid-2,.grid-3{grid-template-columns:1fr}
-  .page{padding:14px 14px 78px}
+  .page{padding:14px 14px 76px}
   .topbar{padding:0 14px}
-  .plan-grid{grid-template-columns:1fr}
-  .tx-type-grid{grid-template-columns:1fr 1fr}
-  .bank-options{grid-template-columns:repeat(3,1fr)}
   .btn-new span{display:none}
-  .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--card);border-top:1px solid var(--border);z-index:50;align-items:stretch}
-  .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(--text2);cursor:pointer;font-size:9px;font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.2px;transition:color .15s}
+  .prow{grid-template-columns:1fr}
+  .bottom-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    height:60px;background:var(--card);border-top:1px solid var(--border);
+    z-index:50;align-items:stretch
+  }
+  .bn-btn{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;border:none;background:none;color:var(--text2);cursor:pointer;
+    font-size:9px;font-family:inherit;font-weight:600;
+    text-transform:uppercase;letter-spacing:.2px;transition:color .15s;padding:4px 0
+  }
   .bn-btn.on{color:var(--green)}
   .bn-btn svg{width:20px;height:20px}
-  .fab{display:flex;position:fixed;bottom:68px;right:14px;width:48px;height:48px;border-radius:50%;background:var(--green);border:none;cursor:pointer;align-items:center;justify-content:center;z-index:51;box-shadow:0 4px 18px rgba(0,212,160,.38);transition:transform .15s}
+  .fab{
+    display:flex;position:fixed;bottom:68px;right:14px;
+    width:48px;height:48px;border-radius:50%;
+    background:var(--green);border:none;cursor:pointer;
+    align-items:center;justify-content:center;
+    z-index:51;box-shadow:0 4px 16px rgba(0,212,160,.35);
+    transition:transform .15s
+  }
   .fab:active{transform:scale(.93)}
   .fab svg{width:22px;height:22px;fill:#000}
 }
@@ -416,6 +437,9 @@ tr:hover td{background:var(--bg2)}
 <!-- ═══ APP ═══ -->
 <div id="app">
   <div class="topbar" id="topbar">
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()" title="Menu">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="topbar-title" id="page-title">Dashboard</div>
     <div class="tb-right">
       <div class="tb-chip green" id="trial-chip" style="display:none" onclick="showPage('planos')">
@@ -1381,9 +1405,8 @@ function toggleSidebar() {
   const sb = document.getElementById('sidebar-el');
   const ov = document.getElementById('sb-overlay');
   if (!sb) return;
-  const opening = !sb.classList.contains('open');
-  sb.classList.toggle('open', opening);
-  if (ov) ov.classList.toggle('show', opening);
+  const isOpen = sb.classList.toggle('open');
+  if (ov) ov.classList.toggle('show', isOpen);
 }
 
 function logout() {
@@ -1474,12 +1497,11 @@ function showPage(p) {
   const sb = document.getElementById('sb-'+p);
   if (sb) sb.classList.add('on');
   document.getElementById('page-title').textContent = PAGE_TITLES[p] || p;
-  // Fechar sidebar no mobile ao navegar
-  const sb = document.getElementById('sidebar-el');
-  const ov = document.getElementById('sb-overlay');
-  if (sb && window.innerWidth <= 768) {
-    sb.classList.remove('open');
-    if (ov) ov.classList.remove('show');
+  if (window.innerWidth <= 768) {
+    const sb=document.getElementById('sidebar-el');
+    const ov=document.getElementById('sb-overlay');
+    if(sb){sb.classList.remove('open');}
+    if(ov){ov.classList.remove('show');}
   }
   syncBottomNav(p);
   const R = {
@@ -2598,12 +2620,17 @@ function buildProfileFromOnboarding(data){
 // INIT
 // ════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
-  const saved=load('currentUser',null);
-  if(saved){
-    currentUser=saved;
-    initState();
-    launchApp();
-  } else {
+  try {
+    const saved=load('currentUser',null);
+    if(saved && saved.id){
+      currentUser=saved;
+      initState();
+      launchApp();
+    } else {
+      document.getElementById('auth-wrap').classList.add('show');
+    }
+  } catch(e) {
+    console.error('Init error:',e);
     document.getElementById('auth-wrap').classList.add('show');
   }
   if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
