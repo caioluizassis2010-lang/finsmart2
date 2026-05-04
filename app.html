@@ -452,7 +452,7 @@ tbody tr:hover td{background:var(--bg2)}
 <body>
 
 <!-- ═══ AUTH ═══ -->
-<div class="auth-wrap show" id="auth-wrap">
+<div class="auth-wrap" id="auth-wrap">
   <div class="auth-bg"></div>
   <div class="auth-card">
     <div class="auth-logo">
@@ -509,7 +509,7 @@ tbody tr:hover td{background:var(--bg2)}
   </div>
 
   <div class="shell">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar-el">
       <div class="sb-header">
         <div class="sb-logo">
           <div class="sb-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/></svg></div>
@@ -1492,6 +1492,15 @@ function doLogin(user) {
   }
 }
 
+
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar-el') || document.querySelector('.sidebar');
+  const ov = document.getElementById('sb-overlay');
+  if(!sb) return;
+  const open = sb.classList.toggle('open');
+  if(ov) ov.classList.toggle('show', open);
+}
+
 function logout() {
   showConfirm('Sair da conta?','Seus dados permanecem salvos neste dispositivo.',()=>{
     currentUser = null;
@@ -2244,31 +2253,7 @@ function selectBankOpt(bankId, containerId) {
   else if(containerId==='banco-bank-opts') _selectedBancoBank=bankId;
 }
 
-function openTxModal(prefill=null) {
-  if (!canAddTx()) { toast(`Limite de ${FREE_LIMIT} lançamentos/mês atingido.`,'error',4000); showPage('planos'); return; }
-  _editTxId = null; _txTags = [];
-  document.getElementById('tx-modal-title').innerHTML='<svg width="16" height="16" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Novo lançamento';
-  document.getElementById('tx-data').value = today();
-  ['tx-desc','tx-obs'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('tx-valor').value='';
-  document.getElementById('tx-parcelas').value='1';
-  document.getElementById('tx-venc').value='';
-  document.getElementById('ai-box').classList.remove('show');
-  updateTagsUI();
-  buildBankOpts('tx-bank-opts','selectBankOpt');
-  _selectedBank=null;
-  const cs=document.getElementById('tx-cat-sel');
-  if(cs) cs.innerHTML=cats.map(c=>`<option value="${c.id}">${c.icon} ${escHtml(c.nome)}</option>`).join('');
-  const bs=document.getElementById('tx-conta-sel');
-  if(bs) bs.innerHTML=bancos.map(b=>{const bd=getBankDef(b.bank);return`<option value="${b.id}">${escHtml(bd.name)} — ${escHtml(b.nome)}</option>`;}).join('');
-  const fs=document.getElementById('tx-from-sel'), ts=document.getElementById('tx-to-sel');
-  const bOpts=bancos.map(b=>{const bd=getBankDef(b.bank);return`<option value="${b.id}">${escHtml(bd.name)} — ${escHtml(b.nome)}</option>`;}).join('');
-  if(fs) fs.innerHTML=bOpts; if(ts) ts.innerHTML=bOpts;
-  const ccs=document.getElementById('tx-cc-sel');
-  if(ccs) ccs.innerHTML=cartoes.map(c=>`<option value="${c.id}">💳 ${escHtml(c.nome)}</option>`).join('');
-  setTxType('despesa');
-  openOverlay('modal-tx');
-}
+
 
 function editTx(id) {
   const t=txs.find(x=>x.id===id);if(!t)return;
@@ -3039,7 +3024,6 @@ function syncBank(bid) {
 // ════════════════════════════════
 // OPEN TX MODAL WITH PRE-SET TYPE
 // ════════════════════════════════
-const _origOpenTxModal = openTxModal;
 function openTxModal(prefillType=null) {
   if(!canAddTx()){ toast(`Limite de ${FREE_LIMIT} lançamentos/mês atingido.`,'error',4000); showPage('planos'); return; }
   _editTxId=null; _txTags=[];
